@@ -47,7 +47,7 @@
 		</el-col>
 
 		<!--编辑界面-->
-		<el-dialog title="编辑" :visible.sync="editFormVisible" >
+		<el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
 			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
 				<el-form-item label="姓名" prop="name">
 					<el-input v-model="editForm.name" auto-complete="off"></el-input>
@@ -75,7 +75,7 @@
 		</el-dialog>
 
 		<!--新增界面-->
-		<el-dialog title="新增" :visible.sync="addFormVisible">
+		<el-dialog title="新增" v-model="addFormVisible" :close-on-click-modal="false">
 			<el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
 				<el-form-item label="姓名" prop="name">
 					<el-input v-model="addForm.name" auto-complete="off"></el-input>
@@ -99,15 +99,12 @@
 			<div slot="footer" class="dialog-footer">
 				<el-button @click.native="addFormVisible = false">取消</el-button>
 				<el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
-				<!--<el-button :circle="true" size="small" icon="el-icon-right" type="success" :disabled="scope.row.status" @click="handleAdopt(scope.$index, scope.row)"></el-button>
-					<el-button :circle="true" size="small" icon="el-icon-wrong" type="danger" @click="handleDel(scope.$index, scope.row)"></el-button>-->
 			</div>
 		</el-dialog>
 	</section>
 </template>
 
 <script>
-	import {fetchGetNews} from "../server/server.js"
 	export default {
 		data() {
 			return {
@@ -171,40 +168,16 @@
 					name: this.filters.name
 				};
 				this.listLoading = true;
+				
+				
 				setTimeout(()=>{
 					this.total=1;
 					this.users=[
-						{id:1,name:"张三",sex:2,age:18,birth:"1996-05-02",addr:"山西省介休市"},
-						{id:2,name:"李四",sex:1,age:18,birth:"1996-06-02",addr:"山西省介休市"},
-						{id:3,name:"王五",sex:2,age:18,birth:"1996-05-02",addr:"山西省介休市"}
+						{id:1,name:"张三",sex:2,age:18,birth:"1996-05-02",addr:"山西省介休市"}
 					]
 					this.listLoading = false;
 				},1000)
 				
-				var params={
-					opt:"getNewsByLabel",
-					labelId:1,
-					page:1,
-					size:10
-				}
-				fetchGetNews(params).then(data=>{
-					console.log(189)
-					console.log(data);
-				})
-//				requestLogin(loginParams).then(data => {
-//	              this.logining = false;
-//	              //NProgress.done();
-//	              let { msg, code, user } = data;
-//	              if (code !== 200) {
-//	                this.$message({
-//	                  message: msg,
-//	                  type: 'error'
-//	                });
-//	              } else {
-//	                sessionStorage.setItem('user', JSON.stringify(user));
-//	                this.$router.push({ path: '/table' });
-//	              }
-//	            });
 			},
 			//删除
 			handleDel: function (index, row) {

@@ -2,7 +2,7 @@ import axios from 'axios'
 //import qs from 'qs'
 
 import { Message } from 'element-ui';
-const baseURL = '/toutiao'
+const baseURL = '/refuse'
  
 axios.defaults.timeout = 10000;                        //响应时间
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;               // 设置token
@@ -35,9 +35,15 @@ axios.interceptors.request.use((config) => {
  
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) =>{
-	console.log(38)
-	console.log(res)
-	return res;
+	if(res.data.code==200){
+		return res.data.data
+	}else{
+		Message({
+        type: 'error',
+        message: res.data.msg
+    })
+		return res.data.data
+	}
     //对响应数据做些事
 //  if(res.data.code == 200){
 //      return res
@@ -67,7 +73,7 @@ export function fetchPost(url, params) {
     return new Promise((resolve, reject) => {
         axios.post(url, params)
             .then(response => {
-                resolve(response.data);
+                resolve(response);
             }, err => {
                 reject(err);
             })
@@ -81,7 +87,7 @@ export function fetchGet(url, param) {
     return new Promise((resolve, reject) => {
         axios.get(url, {params: param})
             .then(response => {
-                resolve(response.data)
+							resolve(response)                
             }, err => {
             	console.log(83,err)
                 reject(err)

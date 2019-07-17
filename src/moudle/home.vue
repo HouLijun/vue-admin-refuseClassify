@@ -75,6 +75,7 @@ export default {
 	data() {
 		return {
 			sysName: '后管系统',
+//			sysName: '垃圾分类管理系统',
 			collapsed: false,
 			sysUserName: '',
 			sysUserAvatar: '',
